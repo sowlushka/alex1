@@ -21,3 +21,7 @@ h1, h3{
 .result{
     margin: 10px 20px;
 }
+
+.task li::marker{
+    font-weight: normal;
+}
