@@ -1,11 +1,11 @@
 body{
-    background-color: beige;
+    background-color:  rgb(238, 238, 191);
     min-height: 100vh;
 }
 
 h1, h3{
     text-align: center;
-    margin-top: 5px;
+    margin-top: 30px;
     margin-bottom: 5px;
 }
 
@@ -24,4 +24,10 @@ h1, h3{
 
 .task li::marker{
     font-weight: normal;
+}
+
+
+body > ol{
+    background: linear-gradient(180deg, rgba(238,238,191,1) 0%, rgba(255,248,220,1) 100%);
+    padding-bottom: 20px;
 }
