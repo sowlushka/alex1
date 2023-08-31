@@ -31,3 +31,16 @@ body > ol{
     background: linear-gradient(180deg, rgba(238,238,191,1) 0%, rgba(255,248,220,1) 100%);
     padding-bottom: 20px;
 }
+
+.screenshot{
+    display: flex;
+    gap: 8px;
+    margin: 8px 0px;
+}
+
+.flex-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+}
