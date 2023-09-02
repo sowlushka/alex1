@@ -9,33 +9,38 @@ h1, h3{
     margin-bottom: 5px;
 }
 
-li::marker { 
+.task{
+    font-style: italic;
+    margin-top: 30px;
+}
+
+ li::marker { 
     font-weight: bold;
 }
 
-li{
-    margin: 0.5em;
+.result{
+    margin: 10px 20px;
 }
 
-body > ul{
+.task li::marker{
+    font-weight: normal;
+}
+
+
+body > ol{
+    background: linear-gradient(180deg, rgba(238,238,191,1) 0%, rgba(255,248,220,1) 100%);
     padding-bottom: 20px;
 }
 
-.task-block{
-    background: linear-gradient(180deg, rgba(238,238,191,1) 0%, rgba(255,248,220,1) 100%);
-    padding: 10px;
-    /*margin: 15px auto;*/
-    width: 290px;
-    font-size: 20px;
+.screenshot{
+    display: flex;
+    gap: 8px;
+    margin: 8px 0px;
 }
 
-a{
-    text-decoration: none;
-}
-
-.task-content{
+.flex-row{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 20px;
 }
