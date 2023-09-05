@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/block.css">
+    <link rel="stylesheet" href="assets/css/chess-queen.css">
 
     <script defer src="assets/js/block.js"></script>
 
@@ -146,10 +147,39 @@
             </div>
         </li>
         <li>
-
+            <div class="task">
+                Дан массив a. Сформируйте новый массив b, в котором будут все элементы из массива a, но не будет повторений. <br>Подсказка: с помощью метода includes можно проверить положили ли вы уже такой элемент в новый массив.
+            </div>
+            <div class="result">
+                <a href="https://codepen.io/sowlushka/pen/qBLqdqN" target="_blank">Решение в codepen.io</a>
+                <p class="codepen" data-height="300" data-default-tab="js,result" data-slug-hash="qBLqdqN" data-user="sowlushka" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+                    <span>See the Pen <a href="https://codepen.io/sowlushka/pen/qBLqdqN">
+                    Alex-2.2.4</a> by Анастасия (<a href="https://codepen.io/sowlushka">@sowlushka</a>)
+                    on <a href="https://codepen.io">CodePen</a>.</span>
+                  </p>
+        </li>
+        <li>
+            <div class="task">
+                Дано число `n`. Сформировать массив из `n` первых простых чисел и вывести его на экран. Число является простым если делится только на 1 и на само себя.
+            </div>
+            <div class="result">
+                <p class="codepen" data-height="300" data-default-tab="js,result" data-slug-hash="NWebqEJ" data-user="sowlushka" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+                    <span>See the Pen <a href="https://codepen.io/sowlushka/pen/NWebqEJ">
+                    Alex-2.2.5</a> by Анастасия (<a href="https://codepen.io/sowlushka">@sowlushka</a>)
+                    on <a href="https://codepen.io">CodePen</a>.</span>
+                  </p>
+            </div>
+        </li>
+        <li>
+            <div class="task">
+                Расставить на шахматной доске 8 ферзей так, чтобы они друг друга не били.
+            </div>
+            <div class="result" id="chess-queen-result"></div>
+            <script defer src="assets/js/chess-queen.js"></script><!--скрипт решения про шахматных ферзей-->
         </li>
     </ol>
     <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script><!--Единый скрипт активации всех фреймов codepen-->
+    
 </body>
 
 </html>

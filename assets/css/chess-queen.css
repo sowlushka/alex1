@@ -1,0 +1,26 @@
+:root{
+    --squareLength: 70px;
+  }
+  
+  .chess-desk{
+    margin: 20px;
+  }
+  
+  .chess-row{
+    display: flex;  
+  }
+  
+  .chess-square{
+    min-width: var(--squareLength);
+    min-height: var(--squareLength);
+  }
+  
+  .black-square{
+    background-color: #202020;
+  }
+  
+  .white-square{
+    background-color: #D0D0D0;
+  }
+  
+  
