@@ -1,5 +1,6 @@
 :root{
-    --squareLength: 70px;
+    --square-max-dimention: 70px;
+    --square-dimention: 12vw;
   }
   
   .chess-desk{
@@ -11,8 +12,11 @@
   }
   
   .chess-square{
-    min-width: var(--squareLength);
-    min-height: var(--squareLength);
+    /*display: inline-block;*/
+    max-width: var(--square-max-dimention);
+    max-height: var(--square-max-dimention);
+    width: var(--square-dimention);
+    height: var(--square-dimention);
   }
   
   .black-square{
