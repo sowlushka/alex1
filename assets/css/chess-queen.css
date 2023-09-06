@@ -1,7 +1,7 @@
 :root{
     --square-max-dimention: 70px;
     --chess-desk-margin: 5px;
-    --ol-margin-left: 5px;
+    --ol-margin-left: 20px;
   }
 
   ol {
@@ -30,7 +30,7 @@
   }
   
   .white-square{
-    background-color: #D0D0D0;
+    background-color: #E0E0D0;
   }
   
   

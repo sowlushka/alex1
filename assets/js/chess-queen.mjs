@@ -1,12 +1,12 @@
 "strict mode";
 
 import { ChessQueen } from "./ChessQueen.mjs";
+import { ChessDesk } from "./ChessDesk.mjs";
 
 let queen=new ChessQueen(1,1);
-console.clear();
-console.log(queen);
+let desk=new ChessDesk();
 
- createHTMLChessDesk(1, "chess-queen-result");
+createHTMLChessDesk(1, "chess-queen-result");
 
 function createHTMLChessDesk(deskNum, divID){
   let squareColor;
