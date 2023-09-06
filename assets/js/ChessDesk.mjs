@@ -3,10 +3,10 @@ import {Pieces} from "./const-chess.mjs";//Перечисление шахмат
 
 export class ChessDesk {
     chessPiece=[];
-    deskGrid;//Координатная сетка доски, заполненные фигурами
+    deskGrid=Array(8,8).fill(0);//Координатная сетка доски, заполненные фигурами
 
     constructor(){
-        this.deskGrid=Array(8,8).fill(0);
+        
     }
 
 
