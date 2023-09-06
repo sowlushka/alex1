@@ -1,6 +1,12 @@
 :root{
     --square-max-dimention: 70px;
     --chess-desk-margin: 5px;
+    --ol-margin-left: 5px;
+  }
+
+  ol {
+    margin-left: var(--ol-margin-left);
+    padding: 0px;
   }
   
   .chess-desk{
@@ -15,8 +21,8 @@
     /*display: inline-block;*/
     max-width: var(--square-max-dimention);
     max-height: var(--square-max-dimention);
-    width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin)) / 8 - 2px);
-    height: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin)) / 8 - 2px);
+    width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
+    height: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
   }
   
   .black-square{
