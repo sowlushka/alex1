@@ -1,3 +1,7 @@
+:root{
+    --result-horizontal-margin: 20px;
+}
+
 body{
     background-color:  rgb(238, 238, 191);
     min-height: 100vh;
@@ -19,7 +23,7 @@ h1, h3{
 }
 
 .result{
-    margin: 10px 20px;
+    margin: 10px var(--result-horizontal-margin);
 }
 
 .result a{

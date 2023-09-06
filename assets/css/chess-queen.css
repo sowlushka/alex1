@@ -1,10 +1,10 @@
 :root{
     --square-max-dimention: 70px;
-    --square-dimention: 12vw;
+    --chess-desk-margin: 5px;
   }
   
   .chess-desk{
-    margin: 20px;
+    margin: var(--chess-desk-margin);
   }
   
   .chess-row{
@@ -15,8 +15,8 @@
     /*display: inline-block;*/
     max-width: var(--square-max-dimention);
     max-height: var(--square-max-dimention);
-    width: var(--square-dimention);
-    height: var(--square-dimention);
+    width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin)) / 8 - 2px);
+    height: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin)) / 8 - 2px);
   }
   
   .black-square{
