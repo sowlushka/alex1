@@ -12,13 +12,8 @@ export class ChessDesk {
 
     addPiece(Piece){
     //Добавление шахматной фигуры на доску (в массив chessPiece) 
-        let emptySquare=true;
-        this.chessPiece.forEach(nextPiece=>{
-            if(nextPiece.x==Piece.x && nextPiece.y==Piece.y){
-                
-                emptySquare=false;
-                throw new Error("Данная координата на доске занята");
-            }
-        });
+        if (Piece.constructor.name!="ChessPiece"){
+            throw new Error("В метод addPiece передан некорректный аргумент. Должен быть экземпляр класса ChessPiece");
+        }
     }
 }

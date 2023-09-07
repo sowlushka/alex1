@@ -4,7 +4,12 @@ import { ChessPiece } from "./chessModules/ChessPiece.mjs";
 import { ChessDesk } from "./chessModules/ChessDesk.mjs";
 import { enumPieces } from "./chessModules/const-chess.mjs";
 
-let queen=new ChessPiece(1,1,enumPieces.queen);
+let queen1=new ChessPiece(1,1,enumPieces.queen);
+let queen2=new ChessPiece(2,3,enumPieces.queen);
+
+console.clear();
+console.log(queen1);
+console.log(queen2);
 let desk=new ChessDesk();
 
 createHTMLChessDesk(1, "chess-queen-result");
