@@ -6,7 +6,7 @@ export class ChessDesk {
     deskGrid;//Координатная сетка доски, заполненная фигурами
 
     constructor(){
-        this.#clearDesk(); //Чистим доску
+        this.clearDesk(); //Чистим доску
     }
 
 
@@ -23,12 +23,18 @@ export class ChessDesk {
         this.chessPiece.push(Piece);//Добавляем фигуру в перечень объектов, находящихся на доске
         this.deskGrid[Piece.x][Piece.y]=Piece.enumPiece;//Добавляем фигуру на координатную сетку шахматной доски
         
-        //Отмечаем на доске поля, которые может бить фигура
+        //Добавляем на доске поля, которые может бить фигура
         Piece.checkPositions.forEach(coor=>{
             if(!(this.deskGrid[coor.x][coor.y])){
                 this.deskGrid[coor.x][coor.y]=enumPieces.checkPosition;
             }
         });
+    }
+
+    popPiece(){
+    //Удалить последнюю фигуру с доски
+        this.chessPiece.pop();
+        this.#renderDesk();//Перерисовываем позиции фигур на доске и полей, которые они бьют
     }
 
     checkSquare(x,y){
@@ -37,11 +43,24 @@ export class ChessDesk {
         return this.deskGrid[x][y];
     }
 
-    #clearDesk(){
+    clearDesk(){
         this.deskGrid=new Array(8);
         for(let i=0;i<8;++i){
             this.deskGrid[i]= new Array(8).fill(0);
         }
         this.chessPiece.length=0;
+    }
+
+    #renderDesk(){
+    //Пересчёт состояния клеток доски
+        this.deskGrid.fill(0);//ИСПРАВИТЬ!!!!!!!!!!!
+        this.chessPiece.forEach(piece=>{
+            this.deskGrid[piece.x][piece.y]=piece.enumPiece;//Прописали на доске фигуру
+            piece.checkPositions.forEach(coor=>{//Для каждой фигуры отмечаем поля, которые она может бить
+                if(this.deskGrid[coor.x][coor.y]==0){
+                    this.deskGrid[coor.x][coor.y]=enumPieces.checkPosition;
+                }
+            });
+        });
     }
 }
