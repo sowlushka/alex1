@@ -1,5 +1,5 @@
-import { ChessQueen } from "./ChessQueen.mjs";
-import {Pieces} from "./const-chess.mjs";//Перечисление шахматных фигур
+import { ChessPiece } from "./ChessPiece.mjs";
+import {enumPieces} from "./const-chess.mjs";//Перечисление шахматных фигур
 
 export class ChessDesk {
     chessPiece=[];

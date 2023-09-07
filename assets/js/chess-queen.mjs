@@ -1,9 +1,10 @@
 "strict mode";
 
-import { ChessQueen } from "./ChessQueen.mjs";
-import { ChessDesk } from "./ChessDesk.mjs";
+import { ChessPiece } from "./chessModules/ChessPiece.mjs";
+import { ChessDesk } from "./chessModules/ChessDesk.mjs";
+import { enumPieces } from "./chessModules/const-chess.mjs";
 
-let queen=new ChessQueen(1,1);
+let queen=new ChessPiece(1,1,enumPieces.queen);
 let desk=new ChessDesk();
 
 createHTMLChessDesk(1, "chess-queen-result");
