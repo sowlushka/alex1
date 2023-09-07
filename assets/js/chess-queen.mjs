@@ -7,10 +7,21 @@ import { enumPieces } from "./chessModules/const-chess.mjs";
 let queen1=new ChessPiece(1,1,enumPieces.queen);
 let queen2=new ChessPiece(2,3,enumPieces.queen);
 
-console.clear();
+/*console.clear();
 console.log(queen1);
-console.log(queen2);
+console.log(queen2);*/
 let desk=new ChessDesk();
+desk.addPiece(queen1);
+desk.addPiece(queen2);
+let deskConsole="";
+for(let i=0;i<8;++i){
+  for(let j=0;j<8;++j){
+    deskConsole+=desk.deskGrid[i][j]+" ";
+  }
+  deskConsole+="\n";
+}
+console.log(deskConsole);
+
 
 createHTMLChessDesk(1, "chess-queen-result");
 

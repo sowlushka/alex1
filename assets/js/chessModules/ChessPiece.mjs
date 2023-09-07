@@ -17,7 +17,7 @@ export class ChessPiece {
     }
 
     set x(x){
-        if(x<1 || x>8 || Math.floor(x)!=x) throw new Error("Некорректная координата X");
+        if(x<0 || x>7 || Math.floor(x)!=x) throw new Error("Некорректная координата X");
         this.#x=x;
     }
 
@@ -26,7 +26,7 @@ export class ChessPiece {
     }
 
     set y(y){
-        if(y<1 || y>8 || Math.floor(y)!=y) throw new Error("Некорректная координата y");
+        if(y<0 || y>7 || Math.floor(y)!=y) throw new Error("Некорректная координата y");
         this.#y=y;
     }
 
@@ -34,13 +34,13 @@ export class ChessPiece {
         return this.#y;
     }
 
-    get Piece(){
+    get enumPiece(){
         return this.#enumPiece;
     }
 
     setCoor(x,y){
-        if(x<1 || x>8 || Math.floor(x)!=x) throw new Error("Некорректная координата X");
-        if(y<1 || y>8 || Math.floor(y)!=y) throw new Error("Некорректная координата y");
+        if(x<0 || x>7 || Math.floor(x)!=x) throw new Error("Некорректная координата X");
+        if(y<0 || y>7 || Math.floor(y)!=y) throw new Error("Некорректная координата y");
         this.#x=x; this.#y=y;
     }
 
@@ -86,32 +86,32 @@ export class ChessPiece {
     //Возвращается массив объектов {x,y}
         let check=[];
 
-        for(let i=1; i<=8;++i){
+        for(let i=0; i<8;++i){
         //Прощитываем вертикальные клетки
             if(i==y)continue;
-            check.push({x,i});
+            check.push({x:x,y:i});
         }
 
-        for(let i=1; i<=8;++i){
+        for(let i=0; i<8;++i){
             //Прощитываем горизонтальные клетки
                 if(i==x)continue;
-                check.push({i,y});
+                check.push({x:i,y:y});
         }
 
-        for(let i=-7; i<=7;++i){
+        for(let i=-7; i<8;++i){
         //Прощитываем главную диагональ. i - позиция клетки относительно текущего положения фигуры
             let checkSquareX=x+i;
             let checkSquareY=y+i;
-            if((checkSquareX==x && checkSquareY==y) ||  checkSquareX<1 || checkSquareX>8 || checkSquareY<1 || checkSquareY>8)continue;
-            check.push({checkSquareX,checkSquareY});
+            if((checkSquareX==x && checkSquareY==y) ||  checkSquareX<0 || checkSquareX>7 || checkSquareY<0 || checkSquareY>7)continue;
+            check.push({x:checkSquareX,y:checkSquareY});
         }
 
-        for(let i=-7; i<=7;++i){
+        for(let i=-7; i<8;++i){
             //Прощитываем побочную диагональ. i - позиция клетки относительно текущего положения фигуры
                 let checkSquareX=x+i;
                 let checkSquareY=y-i;
-                if((checkSquareX==x && checkSquareY==y) ||  checkSquareX<1 || checkSquareX>8 || checkSquareY<1 || checkSquareY>8)continue;
-                check.push({checkSquareX,checkSquareY});
+                if((checkSquareX==x && checkSquareY==y) ||  checkSquareX<0 || checkSquareX>7 || checkSquareY<0 || checkSquareY>7)continue;
+                check.push({x:checkSquareX,y:checkSquareY});
             }
         
         return check;
