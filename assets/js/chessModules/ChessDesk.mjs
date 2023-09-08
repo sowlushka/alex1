@@ -53,7 +53,11 @@ export class ChessDesk {
 
     #renderDesk(){
     //Пересчёт состояния клеток доски
-        this.deskGrid.fill(0);//ИСПРАВИТЬ!!!!!!!!!!!
+        for(let i=0;i<8;++i){
+        //Очистка клеток доски
+            this.deskGrid[i].fill(0);
+        }
+
         this.chessPiece.forEach(piece=>{
             this.deskGrid[piece.x][piece.y]=piece.enumPiece;//Прописали на доске фигуру
             piece.checkPositions.forEach(coor=>{//Для каждой фигуры отмечаем поля, которые она может бить

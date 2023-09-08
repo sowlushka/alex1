@@ -12,8 +12,7 @@ let globalChessResult=[];//Массив конфигураций доски с �
 let desk=new ChessDesk();
 setQueens(maxQueensCount,desk);
 
-desk.addPiece(queen1);
-desk.addPiece(queen2);
+
 let deskConsole="";
 for(let i=0;i<8;++i){
   for(let j=0;j<8;++j){
@@ -57,6 +56,7 @@ function setQueens(n, desk){
 //deskResult - конфигурация фигур на доске.
 //удачную конфигурацию для максимальной рекурсии сохраняем в глобальный массив
   for(let x=0;x<8;++x){
+    if(n==8)document.getElementById("calc-proccess").innerText="Выполняется поиск для x="+x;
     for(let y=0;y<8;++y){
 
       if(desk.checkSquare(x,y)==0){
@@ -84,7 +84,7 @@ function SaveChessResult(desk){
 //Сохранение удачной конфигурации расстановки фигур в глобальную переменную
   
   //Проверяем поступивший массив на совпадение с имеющимися в решениях массивами
-  for(i=0;i<globalChessResult.length;++i){
+  for(let i=0;i<globalChessResult.length;++i){
     let equal=true;
     for(let x=0;x<8;++x){
       for(let y=0;y<8;++y){
