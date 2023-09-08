@@ -1,31 +1,25 @@
 "strict mode";
 
-import { ChessPiece } from "./chessModules/ChessPiece.mjs";
-import { ChessDesk } from "./chessModules/ChessDesk.mjs";
-import { enumPieces } from "./chessModules/const-chess.mjs";
+import { enumPieces, enumPiecesNames } from "./chessModules/const-chess.mjs";
 
+let proccessMessageDiv=document.getElementById('calc-proccess')
 
-const maxQueensCount=8;//Кол-во ферзей, которое необходимо расставить на доске
-let globalChessResult=[];//Массив конфигураций доски с найденным решением
+const worker = new Worker('assets/js/chess-queen-work.mjs', { type: "module" });
 
-
-let desk=new ChessDesk();
-setQueens(maxQueensCount,desk);
-
-
-let deskConsole="";
-for(let i=0;i<8;++i){
-  for(let j=0;j<8;++j){
-    deskConsole+=desk.deskGrid[i][j]+" ";
+worker.addEventListener('message',e=>{
+  let message=e.data;
+  proccessMessageDiv.innerText=message.msg;
+  if(message.process=="end"){
+    setTimeout(worker.terminate,0)
   }
-  deskConsole+="\n";
-}
-console.log(deskConsole);
+  else if(message.process=="calculation"){
+    createHTMLChessDesk(message.count, "chess-queen-result", message.desk);
+  }
+});
 
 
-createHTMLChessDesk(1, "chess-queen-result");
 
-function createHTMLChessDesk(deskNum, divID){
+function createHTMLChessDesk(count, divID, objChessDesk){
   let squareColor;
   let desk="";
   
@@ -38,66 +32,21 @@ function createHTMLChessDesk(deskNum, divID){
       else{
         squareColor="white-square";
       }
-      squareRow+=`<div class="chess-square ${squareColor}" id="d${deskNum}r${i}c${j}"></div>`;
+
+      let img="";
+      if(objChessDesk.deskGrid[i][j]>0){
+        let figure=objChessDesk.deskGrid[i][j];
+        img=`<img src="assets/img/chess/${enumPiecesNames[figure]}.svg">`;
+      };
+
+
+      squareRow+=`<div class="chess-square ${squareColor}" >
+                    ${img}
+                  </div>`;
     }
-    desk+=`<div class="chess-row" id="d${deskNum}r${i}">${squareRow}</div>`;
+    desk+=`<div class="chess-row" >${squareRow}</div>`;
   }
-  desk=`<div class="chess-desk" id="d${deskNum}">${desk}</div>`;
+  desk=`<div>Решение №${count}<div><div class="chess-desk" >${desk}</div>`;
   document.getElementById(divID).insertAdjacentHTML("beforeend",desk);
 }
 
-function setQueens(n, desk){
-//Функция установки шахматной королевы на клетку x,y
-//n-кол-во неустановленных ферзей (глубина рекурсии)
-//desk - объект шахматной доски, на которой происходит установка ферзей
-
-//Возвращает из рекурсии объект {max:n, deskResult}
-//где n-кол-во максимально расставленных фигур для текущей конфигурации
-//deskResult - конфигурация фигур на доске.
-//удачную конфигурацию для максимальной рекурсии сохраняем в глобальный массив
-  for(let x=0;x<8;++x){
-    if(n==8)document.getElementById("calc-proccess").innerText="Выполняется поиск для x="+x;
-    for(let y=0;y<8;++y){
-
-      if(desk.checkSquare(x,y)==0){
-      //Найдена клетка на доске, которая не бьётся уже имеющимися на доске фигурами
-        let newQueen= new ChessPiece(x,y,enumPieces.queen);//Создаём ферзя
-        desk.addPiece(newQueen);//Ставим ферзя на шахматную доску
-        if(n==1){
-        //Рекурсия дошла до конца, все фигуры расставлены. Сохраняем удачное решение в глобальную переменную
-          SaveChessResult(desk);
-          console.log("Найдено решений: "+globalChessResult.length);
-        }
-        else{
-        //Рекурсия не достигла максимальной глубины. Выполняем расстановку фигур далее
-          setQueens(n-1,desk); 
-        }
-        //удаляем ферзя с доски, чтобы попытаться переставить его в цикле на этом же уровне на другую клетку
-        desk.popPiece();
-      }
-
-    }
-  }
-}
-
-function SaveChessResult(desk){
-//Сохранение удачной конфигурации расстановки фигур в глобальную переменную
-  
-  //Проверяем поступивший массив на совпадение с имеющимися в решениях массивами
-  for(let i=0;i<globalChessResult.length;++i){
-    let equal=true;
-    for(let x=0;x<8;++x){
-      for(let y=0;y<8;++y){
-        if(globalChessResult[i].deskGrid[x][y]!=desk.deskGrid[x][y]){
-          equal=false;
-          break;
-        }
-      }
-      if(!equal)break;
-    }
-    if(equal)return;//Такой массив в решениях уже есть. Выходим из процедуры
-  }
-
-  globalChessResult.push(desk);//Запомнили решение
-
-}

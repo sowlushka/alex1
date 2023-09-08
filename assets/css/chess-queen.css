@@ -1,6 +1,6 @@
 :root{
     --square-max-dimention: 70px;
-    --chess-desk-margin: 5px;
+    --chess-desk-margin: 10px;
     --ol-margin-left: 20px;
   }
 
@@ -24,13 +24,27 @@
     width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
     height: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
   }
+
+  .chess-square img{
+    display: flex;
+    width: 95%;
+    height: 95%;
+    justify-content: center;
+    align-content: center;
+  }
   
   .black-square{
-    background-color: #202020;
+    background-color: #505030;
   }
   
   .white-square{
     background-color: #E0E0D0;
+  }
+
+  #calc-proccess{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    color: rgb(2, 67, 2);
   }
   
   

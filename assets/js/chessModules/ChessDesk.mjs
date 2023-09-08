@@ -31,7 +31,7 @@ export class ChessDesk {
         });
     }
 
-    popPiece(){
+    removePiece(){
     //Удалить последнюю фигуру с доски
         this.chessPiece.pop();
         this.#renderDesk();//Перерисовываем позиции фигур на доске и полей, которые они бьют
