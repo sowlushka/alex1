@@ -1,0 +1,22 @@
+
+.even-result{
+  /*width: 100vw;*/
+  background-color: rgba(209, 215, 220, 0.885);
+  color: darkblue;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+.calc-info{
+  margin: 10px;
+}
+
+.calc-status{
+  background-color: rgba(179, 237, 191, 0.885);
+  color:darkblue;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 5px;
+  text-align: center;
+}

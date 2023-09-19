@@ -1,3 +1,15 @@
+@font-face {
+	font-family: 'Consolas';
+	src: url('../fonts/consolas.eot'); /* IE 9 Compatibility Mode */
+	src: url('../fonts/consolas.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
+		url('../fonts/consolas.woff2') format('woff2'), /* Super Modern Browsers */
+		url('../fonts/consolas.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+		url('../fonts/consolas.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('../fonts/consolas.svg#consolas') format('svg'); /* Chrome < 4, Legacy iOS */
+}
+
+
+
 :root{
     --result-horizontal-margin: 20px;
 }
@@ -52,4 +64,10 @@ body > ol{
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
+}
+
+code{
+    color: darkblue;
+    font-style: normal;
+    font-family: 'Consolas';
 }
