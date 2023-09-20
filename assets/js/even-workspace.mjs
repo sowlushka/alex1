@@ -93,6 +93,7 @@ msg=`<div>Проведено ${testCount} испытаний на случайн
 `;
 returnMessageToBrowser("calculation",msg, 100);//Отправляем сообщение в div для результата 100% выполнения, process="calculation"
 
+returnMessageToBrowser("end","Вычисления закончены", 0);
 
 function returnMessageToBrowser(process, message, percent){
 //Отправка сообщений о выполнении процесса расчёта в браузер
