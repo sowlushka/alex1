@@ -77,8 +77,26 @@ export class ChessPiece {
                 break;
             case enumPieces.knight:
             /*тут будет код для решения задачи про коней */
+                this.checkPositions=this.#calcKnightCheckSquares(x,y);
             break;
         }
+    }
+
+    #calcKnightCheckSquares(x,y){
+    //Метод, вычисляющий клетки, которые бьются конём, стоящим в координатах x,y
+    //Возвращается массив объектов {x,y}
+        let check=[];
+
+        //В двойном цикле перебираем варианты положения коня
+        for(let i=-2; i<3 && (x+i)<8 ;++i){//i - смещение коня относительно себя по координате x
+            if(i==0 || (x+i)<0)continue;
+
+            for(let j=-2;j<3 && (y+j)<8;++j){ //j - смещение коня относительно себя по координате y
+                if(j==0 || (y+j)<0 || i==j)continue;
+                check.push({x:x+i, y:y+j});
+            }
+        }
+        return check;
     }
 
     #calcQueenCheckSquares(x,y){

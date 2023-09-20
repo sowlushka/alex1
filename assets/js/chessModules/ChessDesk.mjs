@@ -43,6 +43,11 @@ export class ChessDesk {
         return this.deskGrid[x][y];
     }
 
+    isAllSquaresChecked(){
+     //Метод проверяет наличие хотя бы одной небьющейся клетки на доске
+    return  !(this.deskGrid.flat().find(el=>!el)===0);  
+    }
+
     clearDesk(){
         this.deskGrid=new Array(8);
         for(let i=0;i<8;++i){
