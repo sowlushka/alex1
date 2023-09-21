@@ -41,7 +41,7 @@ function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
       if (figure>0){
         figureIndex=objChessDesk.chessPiece.findIndex(piece=>piece.x==i && piece.y==j);
         let x=objChessDesk.chessPiece[0].x;
-        debugger
+        //debugger
       }
       /*--------------------------------------------------------------------------------------------*/
       

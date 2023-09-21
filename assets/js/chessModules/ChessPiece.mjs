@@ -92,7 +92,7 @@ export class ChessPiece {
             if(i==0 || (x+i)<0)continue;
 
             for(let j=-2;j<3 && (y+j)<8;++j){ //j - смещение коня относительно себя по координате y
-                if(j==0 || (y+j)<0 || i==j)continue;
+                if(j==0 || (y+j)<0 || i+j==0 || i-j==0)continue;//i+j==0 || i-j==0 эквивалентна Math.abs(i)==Math.abs(j), но должна работать быстрее
                 check.push({x:x+i, y:y+j});
             }
         }

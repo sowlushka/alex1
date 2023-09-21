@@ -37,7 +37,7 @@ export class ChessDesk {
         //returnMessageToBrowser("tech-data",``, 0, this);
         this.chessPiece.pop();
         this.#renderDesk();//Перерисовываем позиции фигур на доске и полей, которые они бьют
-       // returnMessageToBrowser("tech-data",``, 0, this);
+       //returnMessageToBrowser("tech-data",``, 0, this);
     }
 
     checkSquare(x,y){
