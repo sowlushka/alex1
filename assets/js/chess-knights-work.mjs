@@ -38,15 +38,12 @@ function setKnights(n, square, desk){
 //где n-кол-во максимально расставленных фигур для текущей конфигурации
 //deskResult - конфигурация фигур на доске.
 //удачную конфигурацию для максимальной рекурсии сохраняем в глобальный массив
-  for(let i=square;i<65-n;++i){
+  for(let i=square;(i<65-n-maxKnightsCount+n) && (i-square<36);++i){
     let x=i >> 3;//Сдвиг на 3 бита вправо. Эквивалент деления на 8 без остатка
     let y=i & 7; //Остаток от деления на 8
     ++moduleCounter;
 
-    if(n==maxKnightsCount){
-    //Выдаём сообщение о статусе поиска
-      returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${moduleCounter} переборов в циклах, выполнено ${Math.floor((x*8+y)/64*100)}%`, globalChessResult.length, desk);
-    } else if(!(moduleCounter%(1e+6))){
+    if(!(moduleCounter%(1e+6))){
       returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${Math.floor(moduleCounter/(1e+6))} млн переборов в циклах`,  globalChessResult.length, desk);
     }
 
@@ -96,7 +93,7 @@ function SaveChessResult(desk){
         globalChessResult.length, desk);
 }
 
-function returnMessageToBrowser(process, message, count, desk){
+export function returnMessageToBrowser(process, message, count, desk){
 //Отправка сообщений о выполнении процесса расчёта в браузер
     self.postMessage({process:process, msg: message, count:count, desk: desk});
 }

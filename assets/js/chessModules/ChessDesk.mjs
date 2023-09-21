@@ -1,5 +1,6 @@
 import { ChessPiece } from "./ChessPiece.mjs";
 import {enumPieces, enumPiecesNames} from "./const-chess.mjs";//Перечисление шахматных фигур
+import {returnMessageToBrowser} from "../chess-knights-work.mjs";
 
 export class ChessDesk {
     chessPiece=[];//Перечень объектов на доске
@@ -33,8 +34,10 @@ export class ChessDesk {
 
     removePiece(){
     //Удалить последнюю фигуру с доски
+        //returnMessageToBrowser("tech-data",``, 0, this);
         this.chessPiece.pop();
         this.#renderDesk();//Перерисовываем позиции фигур на доске и полей, которые они бьют
+       // returnMessageToBrowser("tech-data",``, 0, this);
     }
 
     checkSquare(x,y){
@@ -45,7 +48,16 @@ export class ChessDesk {
 
     isAllSquaresChecked(){
      //Метод проверяет наличие хотя бы одной небьющейся клетки на доске
-    return  !(this.deskGrid.flat().find(el=>!el)===0);  
+     let allIsChecked=true;
+     for(let x=0;x<8 && allIsChecked;++x){
+        for(let y=0;y<8;++y){
+            if(!this.deskGrid[x][y]){
+                allIsChecked=false;
+                break;
+            }
+        }
+     }
+    return  allIsChecked;  
     }
 
     clearDesk(){

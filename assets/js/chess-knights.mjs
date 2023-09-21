@@ -32,6 +32,20 @@ function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
   for(let i=0;i<8;++i){
     let squareRow="";
     for(let j=0;j<8;++j){
+      let figure=objChessDesk.deskGrid[i][j];
+
+      /*--------------------------------------------------------------------------------------------*/
+      /*В коде ниже я хочу получить индекс фигуры в массиве, чтобы отобразить его на шахматной доске над картинкой коня.
+      В текущей реализации кода пока что над картинкой коня отображается номер фигуры из перечня фигур*/
+      let figureIndex;
+      if (figure>0){
+        figureIndex=objChessDesk.chessPiece.findIndex(piece=>piece.x==i && piece.y==j);
+        let x=objChessDesk.chessPiece[0].x;
+        debugger
+      }
+      /*--------------------------------------------------------------------------------------------*/
+      
+
       if((i+j)%2){
         squareColor="black-square";
       }
@@ -41,12 +55,13 @@ function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
 
       let img="";
       if(objChessDesk.deskGrid[i][j]>0){
-        let figure=objChessDesk.deskGrid[i][j];
+        
         img=`<img src="assets/img/chess/${enumPiecesNames[figure]}.svg">`;
       };
 
-
+      
       squareRow+=`<div class="chess-square ${squareColor}" >
+                  <div class="piece-num">${figure?figure:""}</div>
                     ${img}
                   </div>`;
     }

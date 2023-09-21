@@ -18,7 +18,10 @@
   }
   
   .chess-square{
-    /*display: inline-block;*/
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: var(--square-max-dimention);
     max-height: var(--square-max-dimention);
     width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
@@ -26,15 +29,24 @@
   }
 
   .chess-square img{
-    display: flex;
+    position:absolute;
+    z-index:0;
+   /* display: flex;*/
     width: 95%;
     height: 95%;
     justify-content: center;
     align-content: center;
   }
+
+  .piece-num{
+    position: relative;
+    color: red;
+    font-weight: 700;
+    z-index: 1;
+  }
   
   .black-square{
-    background-color: #505030;
+    background-color: #606030;
   }
   
   .white-square{
@@ -48,7 +60,7 @@
   }
 
   #tech-result{
-    opacity: 30%;
+    opacity: 50%;
   }
   
   
