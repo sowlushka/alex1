@@ -1,6 +1,5 @@
 import { ChessPiece } from "./ChessPiece.mjs";
 import {enumPieces, enumPiecesNames} from "./const-chess.mjs";//Перечисление шахматных фигур
-import {returnMessageToBrowser} from "../chess-knights-work.mjs";
 
 export class ChessDesk {
     chessPiece=[];//Перечень объектов на доске

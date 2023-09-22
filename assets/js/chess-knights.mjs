@@ -1,22 +1,36 @@
-"strict mode";
-
-import { enumPieces, enumPiecesNames } from "./chessModules/const-chess.mjs";
+import {enumPiecesNames } from "./chessModules/const-chess.mjs";
 const techResult=true;
 
-let proccessMessageDiv=document.getElementById('calc-proccess')
 
-const worker = new Worker('assets/js/chess-knights-work.mjs', { type: "module" });
 
-worker.addEventListener('message',e=>{
+const worker1 = new Worker('assets/js/chess-knights-work.mjs', { type: "module" });
+const worker2 = new Worker('assets/js/chess-knights-work2.mjs', { type: "module" });
+
+worker1.addEventListener('message',e=>{
   let message=e.data;
+  let proccessMessageDiv=document.getElementById('calc-proccess-text1')
   proccessMessageDiv.innerText=message.msg;
   if(message.process=="end"){
     setTimeout(worker.terminate,0)
   }else if(message.process=="tech-data"){
-    createHTMLChessDesk(message.count, "tech-result", message.desk, techResult);
+    createHTMLChessDesk(message.count, "tech-result1", message.desk, techResult);
   }
   else if(message.process=="calculation" && message.desk){
-    createHTMLChessDesk(message.count, "chess-queen-result", message.desk);
+    createHTMLChessDesk(message.count, "chess-knight-result1", message.desk);
+  }
+});
+
+worker2.addEventListener('message',e=>{
+  let message=e.data;
+  let proccessMessageDiv=document.getElementById('calc-proccess-text2')
+  proccessMessageDiv.innerText=message.msg;
+  if(message.process=="end"){
+    setTimeout(worker.terminate,0)
+  }else if(message.process=="tech-data"){
+    createHTMLChessDesk(message.count, "tech-result2", message.desk, techResult);
+  }
+  else if(message.process=="calculation" && message.desk){
+    createHTMLChessDesk(message.count, "chess-knight-result2", message.desk);
   }
 });
 
@@ -25,7 +39,7 @@ worker.addEventListener('message',e=>{
 function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
 //Функция рисует в браузере доску с положением фигур для найденного решения
 //Если techResult=true, выводятся техническое состояние фигур в процессе перебора, не являющееся решением и 
-//выполняется не добавление решение, а перерисовка технического блока с рисунком доски
+//выполняется не добавление решения, а перерисовка технического блока с рисунком доски
   let squareColor;
   let desk="";
   

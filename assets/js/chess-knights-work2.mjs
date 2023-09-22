@@ -1,11 +1,17 @@
-//Модуль для расчёта позиции коней методом полного перебора вариантов расположения на доске для каждого коня
+//Модуль для расчёта позиции коней методом просчёта вариантов расположения коня в своём блоке доски
+
+//12 коней исходя из симметрии наверняка равномерно распределятся по доске - примерно по 3 коня в свою четверть доски. Но это не точно
+//Поэтому делим доску на 4 перекрывающиеся четверти размером 5х5, распределяем коней по своим четвертям и перебираем
+//варианты расположения каждого коня в своей четверти.
+//Алгоритм позволяет сократить объем перебора
+
 
 import { ChessPiece } from "./chessModules/ChessPiece.mjs";
 import { ChessDesk } from "./chessModules/ChessDesk.mjs";
 import { enumPieces } from "./chessModules/const-chess.mjs";
 
 
-//Объект для передачи сообщений
+//Объект для передачи сообщений из worker-а через функцию returnMessageToBrowser
 //{process: "start" || "calculation" || "tech-data" || "end", msg: string , count:undefined || number, desk: undefined || desk};
 //
 //process: - системные сообщения о статусе процесса вычисления "start","calculation", "tech-data", "end" (необходимо для завершения worker-а через terminate)
@@ -15,27 +21,42 @@ import { enumPieces } from "./chessModules/const-chess.mjs";
 //desk - возвращает объект desk если process: calculation или tech-data
 
 
-returnMessageToBrowser("start","Старт вычислений", 0, undefined);
 
 const maxKnightsCount=12;//Кол-во коней, которое необходимо расставить на доске
 let globalChessResult=[];//Массив конфигураций доски с найденным решением
 let moduleCounter=0;//Глобальный счётчик итераций циклов поиска решения.
+const quartSize=25;//Кол-во клеток в каждой перекрывающейся четверти
+const quartKnightCount= Math.floor(maxKnightsCount/4);//Кол-во фигур в четверти
+const floatKnightCount=maxKnightsCount%4;//Кол-во плавающих по четвертям коней в случае maxKnightsCount не кратного 4-м
 
+//Объект четверти доски со стартовыми координатами на шахматной доске
+const Quart=function(xStart, yStart){
+  this.x=xStart;
+  this.y=yStart;
+}
 
+//Создаю массив с объектами четвертей,
+let quarts=[new Quart(0,0), new Quart(3,0), new Quart(0,3), new Quart(3,3)];
+
+returnMessageToBrowser("start","Старт вычислений", 0, undefined);
 let desk=new ChessDesk();
 setKnights(maxKnightsCount,0,desk);
 
 returnMessageToBrowser("end",`Вычисления завершены. Всего решений: ${globalChessResult.length}`, globalChessResult.length ,undefined);
 
-
 function setKnights(n, square, desk){
 //Функция установки шахматной королевы на клетку x,y
-//n-кол-во неустановленных коней (глубина рекурсии)
-//square - порядковый номер клетки на шахматной доске от 0 до 63. На след. уровне рекурсии стартовая позиция коня больше чем у предыдущего номера
+//n-кол-во неустановленных коней (глубина рекурсии. дно рекурсии при n==1)
+//square - порядковый номер клетки в соответствующей четверти доски. На след. уровне рекурсии стартовая позиция коня больше чем у предыдущего номера
 //desk - объект шахматной доски, на которой происходит установка коней
 //удачную конфигурацию для максимальной рекурсии сохраняем в глобальный массив
 
-  for(let i=square;(i<65-n-maxKnightsCount+n) && (i-square<36);++i){
+  
+  let quartNum=(maxKnightsCount-n)>>2;//Делением на 4 получили номер четверти для данной фигуры
+  let quartKnightNum=(maxKnightsCount-n) & 4;//Номер фигуры в четверти
+  
+  for(let i=0;i<qartSize-quartKnightCount+quartKnightNum;++i){
+    ////////////////ДАЛЬШЕ БУДУ ДУМАТЬ ЗАВТРА
     let x=i >> 3;//Сдвиг на 3 бита вправо. Эквивалент деления на 8 без остатка
     let y=i & 7; //Остаток от деления на 8
     ++moduleCounter;

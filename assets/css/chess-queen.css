@@ -1,12 +1,17 @@
 :root{
     --square-max-dimention: 70px;
-    --chess-desk-margin: 10px;
-    --ol-margin-left: 20px;
+    --chess-desk-margin: 5px;
+    --ol-margin-left: 10px;
   }
 
   ol {
     margin-left: var(--ol-margin-left);
     padding: 0px;
+  }
+
+  .methods-results{
+    display: flex;
+    justify-content: space-between;
   }
   
   .chess-desk{
@@ -24,8 +29,8 @@
     align-items: center;
     max-width: var(--square-max-dimention);
     max-height: var(--square-max-dimention);
-    width: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
-    height: calc((100vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
+    width: calc((50vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
+    height: calc((50vw - 2 * var(--chess-desk-margin) - 2 * var(--result-horizontal-margin) - var(--ol-margin-left)) / 8 - 2px);
   }
 
   .chess-square img{
@@ -59,7 +64,7 @@
     color: rgb(2, 67, 2);
   }
 
-  #tech-result{
+  #tech-result1, #tech-result2{
     opacity: 50%;
   }
   

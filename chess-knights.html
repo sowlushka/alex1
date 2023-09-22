@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/chess-queen.css">
 
     <script defer src="assets/js/block.js"></script>
-    <script defer src="assets/js/chess-knights.mjs" type="module"></script><!--скрипт решения задачи про 12 шахматных коней-->
+    <script src="assets/js/chess-knights.mjs" type="module"></script><!--скрипт решения задачи про 12 шахматных коней-->
 
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <title>Задачи JS. 12 коней</title>
@@ -22,11 +22,21 @@
     <div class="task">
         Расставить на шахматной доске 12 коней так, чтобы они били все клетки шахматной доски.
     </div>
-    <div id="calc-proccess">
+    <div class="methods-results">
+        <div class="method1-result">
+            <div id="calc-proccess-text1">
+            </div>
+            <div class="result" id="tech-result1"></div><!--Блок для вывода промежуточного результата на шахматной доске-->
+            <div class="result" id="chess-knight-result1"></div>
+        </div>
+        <div class="method2-result">
+            <div id="calc-proccess-text2">
 
+            </div>
+            <div class="result" id="tech-result2"></div><!--Блок для вывода промежуточного результата на шахматной доске-->
+            <div class="result" id="chess-knight-result2"></div>
+        </div>
     </div>
-    <div class="result" id="tech-result"></div><!--Блок для вывода промежуточного результата на шахматной доске-->
-    <div class="result" id="chess-queen-result"></div>
 
 
 </body>
