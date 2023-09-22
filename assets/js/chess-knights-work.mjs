@@ -38,11 +38,7 @@ function setKnights(n, square, desk){
   for(let i=square;(i<65-n-maxKnightsCount+n) && (i-square<36);++i){
     let x=i >> 3;//Сдвиг на 3 бита вправо. Эквивалент деления на 8 без остатка
     let y=i & 7; //Остаток от деления на 8
-    ++moduleCounter;
-
-    if(!(moduleCounter%(5e+6))){
-      returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${(moduleCounter/(1e+9)).toFixed(3)} млрд. переборов в циклах`,  globalChessResult.length, desk);
-    }
+    
 
 
     if(desk.checkSquare(x,y)<=0){
@@ -52,6 +48,11 @@ function setKnights(n, square, desk){
       if(n==1){
       //Рекурсия дошла до конца, все фигуры расставлены.
       //Проверяем все клетки доски на наличие небьющихся позиций
+      ++moduleCounter;
+
+      if(!(moduleCounter%(5e+6))){
+        returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${(moduleCounter/(1e+9)).toFixed(3)} млрд. переборов в циклах`,  globalChessResult.length, desk);
+      }
         if(desk.isAllSquaresChecked()){
           //Очередное решение найдено
           SaveChessResult(desk);
