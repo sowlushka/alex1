@@ -17,6 +17,7 @@ import { enumPieces } from "./chessModules/const-chess.mjs";
 
 returnMessageToBrowser("start","Старт вычислений", 0, undefined);
 
+
 const maxKnightsCount=12;//Кол-во коней, которое необходимо расставить на доске
 let globalChessResult=[];//Массив конфигураций доски с найденным решением
 let moduleCounter=0;//Глобальный счётчик итераций циклов поиска решения.

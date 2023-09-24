@@ -10,6 +10,17 @@ import { ChessPiece } from "./chessModules/ChessPiece.mjs";
 import { ChessDesk } from "./chessModules/ChessDesk.mjs";
 import { enumPieces } from "./chessModules/const-chess.mjs";
 
+const dbName="worker2";//Имя базы данных, в которой хранятся параметры вычислений данного модуля
+const maxKnightsCount=12;//Кол-во коней, которое необходимо расставить на доске
+const quartSize=4;//Размер стороны одной пересекающейся четверти
+const quartSizeSquare=quartSize*quartSize;//Кол-во клеток в квадратке четверти
+const quartKnightCount= Math.floor(maxKnightsCount/4);//Кол-во фигур в четверти
+const floatKnightCount=maxKnightsCount%4;//Кол-во плавающих по четвертям коней в случае maxKnightsCount не кратного 4-м
+//Класс четверти доски со стартовыми координатами на шахматной доске
+const Quart=function(xStart, yStart){
+  this.x=xStart;
+  this.y=yStart;
+}
 
 //Объект для передачи сообщений из worker-а через функцию returnMessageToBrowser
 //{process: "start" || "calculation" || "tech-data" || "end", msg: string , count:undefined || number, desk: undefined || desk};
@@ -19,45 +30,88 @@ import { enumPieces } from "./chessModules/const-chess.mjs";
 //msg - пользовательские сообщения для вывода в браузер 
 //count - порядковый номер передаваемого решения;
 //desk - возвращает объект desk если process: calculation или tech-data
+/*
+indexedDB.deleteDatabase(dbName);
+debugger;*/
 
 
 
-const maxKnightsCount=12;//Кол-во коней, которое необходимо расставить на доске
 let globalChessResult=[];//Массив конфигураций доски с найденным решением
 let moduleCounter=0;//Глобальный счётчик итераций циклов поиска решения.
-const quartSize=4;//Размер стороны одной пересекающейся четверти
-const quartSizeSquare=quartSize*quartSize;//Кол-во клеток в квадратке четверти
-const quartKnightCount= Math.floor(maxKnightsCount/4);//Кол-во фигур в четверти
-const floatKnightCount=maxKnightsCount%4;//Кол-во плавающих по четвертям коней в случае maxKnightsCount не кратного 4-м
-
-//Объект четверти доски со стартовыми координатами на шахматной доске
-const Quart=function(xStart, yStart){
-  this.x=xStart;
-  this.y=yStart;
-}
-
-//Создаю массив с объектами четвертей,
+let indexArray= new Array(maxKnightsCount).fill(0);//Массив для хранения расчётных индексов
+//Создаю массив с объектами координат четвертей
 let quarts=[new Quart(0,0), new Quart(4,0), new Quart(0,4), new Quart(4,4)];
-
-returnMessageToBrowser("start","Старт вычислений", 0, undefined);
 let desk=new ChessDesk();
-setKnights(maxKnightsCount,0,desk);
 
-returnMessageToBrowser("end",`Вычисления завершены. Всего решений: ${globalChessResult.length}`, globalChessResult.length ,undefined);
+//Инициализация параметров для расчёта через indexedDB
+let openRequest = indexedDB.open(dbName, 1);
+let db;
 
-function setKnights(n, square, desk){
+openRequest.onupgradeneeded = function() {
+  // Создаём базу данных
+  db = openRequest.result;
+  const store = db.createObjectStore("workerObjects",{keyPath: 'variable', autoIncrement: false});
+
+  //Начальная инициализация значений в базе данных при её создании
+  store.put({variable: "moduleCounter", value: moduleCounter});
+  store.put({variable: "globalChessResult", value: globalChessResult});
+  store.put({variable: "indexArray", value: indexArray});
+};
+
+openRequest.onsuccess = function() {
+  db = openRequest.result;
+  let transaction = db.transaction("workerObjects", "readwrite");
+  let worker=transaction.objectStore("workerObjects");
+  const request=worker.getAll();
+  request.onsuccess=(e)=>{
+    const matching = request.result;
+    indexArray=matching.find(el=>el.variable=="indexArray").value;
+    moduleCounter=matching.find(el=>el.variable=="moduleCounter").value;
+    globalChessResult=matching.find(el=>el.variable=="globalChessResult").value;
+    
+    
+  }
+  transaction.oncomplete=()=>{
+    setTimeout(()=>{
+      if(!indexArray.reduce((sum,el)=>sum+el)){
+        //Стартовых позиций перебора нет. Поиск начинаем с самого начала
+        setKnights(maxKnightsCount,0,desk);
+      }
+      else{
+        setKnights(maxKnightsCount,indexArray[maxKnightsCount-1],desk, true);
+      }
+    },0);
+  }
+};
+
+
+
+openRequest.onerror = function (event) {
+  debugger;
+  alert(    "Почему вы не позволяете моему веб-приложению использовать IndexedDB?!" );
+};
+
+
+
+
+function setKnights(n, square, desk, initialFromArray=false){
 //Функция установки шахматной королевы на клетку x,y
 //n-кол-во неустановленных коней (глубина рекурсии. дно рекурсии при n==1)
 //square - порядковый номер клетки в соответствующей четверти доски, с которой начинается расстановка фигур в четверти. Всегда на 1 больше чем предыдущая позиция фигуры в четверти
 //desk - объект шахматной доски, на которой происходит установка коней
+//db - объект для работы с базой данных (сохранение промежуточных результатов расчёта)
+//initial - инициализация конфигурации фигур по данным из массива индексов
 //удачную конфигурацию для максимальной рекурсии сохраняем в глобальный массив
 
   
   let quartNum=Math.floor((maxKnightsCount-n)/quartKnightCount);//Делением на кол-во фигур в четверти получили номер четверти для данной фигуры
   let quartKnightNum=(maxKnightsCount-n) % quartKnightCount;//Номер фигуры в четверти
+
+  let startIndexNum=initialFromArray?indexArray[n-1]:(quartKnightNum?square:0);
   
-  for(let i=quartKnightNum?square:0;i<quartSizeSquare-quartKnightCount+quartKnightNum;++i){
+  for(let i=startIndexNum;i<quartSizeSquare-quartKnightCount+quartKnightNum+1;++i){
     //Рассчитываем координаты фигуры на доске
+    indexArray[n-1]=i;//Сохраняем информацию о состоянии фигур (индексов в четвертях) в массив
     let x=quarts[quartNum].x+i%quartSize;
     let y=quarts[quartNum].y+Math.floor(i/quartSize);
 
@@ -68,7 +122,12 @@ function setKnights(n, square, desk){
       if(n==1){
         ++moduleCounter;
         if(!(moduleCounter%(1e+7))){
-          returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${moduleCounter/(1e+6)} млн. переборов в циклах`,  globalChessResult.length, desk);
+          //Сохраняем результаты промежуточных расчётов
+          let transaction = db.transaction("workerObjects","readwrite");
+          let worker=transaction.objectStore("workerObjects");
+          worker.put({variable: "moduleCounter", value: moduleCounter});
+          worker.put({variable: "indexArray", value: indexArray});
+          transaction.oncomplete=()=>returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${moduleCounter/(1e+9)} млрд. переборов в циклах`,  globalChessResult.length, desk);
         }
       //Рекурсия дошла до конца, все фигуры расставлены.
       //Проверяем все клетки доски на наличие небьющихся позиций
@@ -79,12 +138,14 @@ function setKnights(n, square, desk){
       }
       else{
       //Рекурсия не достигла максимальной глубины. Выполняем расстановку фигур далее
-        setKnights(n-1, i+1, desk); 
+        
+        initialFromArray=setKnights(n-1, i+1, desk, initialFromArray); 
       }
       //удаляем коня с доски, чтобы попытаться переставить его в цикле на этом же уровне на другую клетку
       desk.removePiece();
     }
   }
+  return false;//Был выход из дна рекурсии. Инициализация из массива больше не требуется
 }
 
 function SaveChessResult(desk){
