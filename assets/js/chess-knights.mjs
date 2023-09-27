@@ -9,7 +9,8 @@ const worker2 = new Worker('assets/js/chess-knights-work2.mjs', { type: "module"
 worker1.addEventListener('message',e=>{
   let message=e.data;
   let proccessMessageDiv=document.getElementById('calc-proccess-text1')
-  proccessMessageDiv.innerText=message.msg;
+  if (message.process!="db") proccessMessageDiv.innerText=message.msg;//Если тип команды не сохранение в БД, то разрешаем комментарий
+
   if(message.process=="end"){
     setTimeout(worker.terminate,0)
   }else if(message.process=="tech-data"){
@@ -17,7 +18,8 @@ worker1.addEventListener('message',e=>{
   }
   else if(message.process=="db"){
     //Пришло сообщение на сохранение в БД
-    
+    //в desk находятся объекты для сохранения. Отправляем их в функцию сохранения БД
+    saveToindexedDB(message.dbData);
   }
   else if(message.process=="calculation" && message.desk){
     createHTMLChessDesk(message.count, "chess-knight-result1", message.desk);
@@ -26,11 +28,17 @@ worker1.addEventListener('message',e=>{
 
 worker2.addEventListener('message',e=>{
   let message=e.data;
-  let proccessMessageDiv=document.getElementById('calc-proccess-text2')
-  proccessMessageDiv.innerText=message.msg;
+  let proccessMessageDiv=document.getElementById('calc-proccess-text2');
+  if (message.process!="db") proccessMessageDiv.innerText=message.msg;//Если тип команды не сохранение в БД, то разрешаем комментарий
+
   if(message.process=="end"){
-    setTimeout(worker.terminate,0)
-  }else if(message.process=="tech-data"){
+    setTimeout(worker.terminate,0);
+  } else if(message.process=="db"){
+    //Пришло сообщение на сохранение в БД
+    //в desk находятся объекты для сохранения. Отправляем их в функцию сохранения БД
+    saveToindexedDB(message.dbData);
+  }
+  else if(message.process=="tech-data"){
     createHTMLChessDesk(message.count, "tech-result2", message.desk, techResult);
   }
   else if(message.process=="calculation" && message.desk){
@@ -99,4 +107,28 @@ function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
 }
 
 
+function saveToindexedDB(dbData){
+//Сохранение промежуточных расчётов в indexedDB
+  const requestDB = indexedDB.open(dbData.dbName, 1);//Открываем базу данных
 
+  requestDB.onupgradeneeded = function() {
+    // Создаём базу данных
+    let db = requestDB.result;
+    const store = db.createObjectStore("workerObjects",{keyPath: 'variable', autoIncrement: false});
+
+    //Начальная инициализация значений в базе данных при её создании
+    store.put({variable: "moduleCounter", value: moduleCounter});
+    store.put({variable: "globalChessResult", value: globalChessResult});
+    store.put({variable: "indexArray", value: indexArray});
+  };
+
+  requestDB.onsuccess = async function(e) {
+    let db = e.target.result;
+    let transaction = db.transaction("workerObjects", "readwrite");
+    let worker=transaction.objectStore("workerObjects");
+    await worker.put({variable: "globalChessResult", value: dbData.globalChessResult});
+    await worker.put({variable: "moduleCounter", value: dbData.moduleCounter});
+    await worker.put({variable: "indexArray", value: dbData.indexArray});
+    db.close();
+  }
+}
