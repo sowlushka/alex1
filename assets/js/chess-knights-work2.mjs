@@ -123,11 +123,8 @@ function setKnights(n, square, desk, initialFromArray=false){
         ++moduleCounter;
         if(!(moduleCounter%(1e+7))){
           //Сохраняем результаты промежуточных расчётов
-          let transaction = db.transaction("workerObjects","readwrite");
-          let worker=transaction.objectStore("workerObjects");
-          worker.put({variable: "moduleCounter", value: moduleCounter});
-          worker.put({variable: "indexArray", value: indexArray});
-          transaction.oncomplete=()=>returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${moduleCounter/(1e+9)} млрд. переборов в циклах`,  globalChessResult.length, desk);
+          saveGlobalDataToDB(desk);
+          returnMessageToBrowser("tech-data",`Идёт поиск. Найдено ${globalChessResult.length} решений, ${moduleCounter/(1e+9)} млрд. переборов в циклах`,  globalChessResult.length, desk);
         }
       //Рекурсия дошла до конца, все фигуры расставлены.
       //Проверяем все клетки доски на наличие небьющихся позиций
@@ -174,4 +171,28 @@ function SaveChessResult(desk){
 function returnMessageToBrowser(process, message, count, desk){
 //Отправка сообщений о выполнении процесса расчёта в браузер
     self.postMessage({process:process, msg: message, count:count, desk: desk});
+}
+
+async function saveGlobalDataToDB(desk){
+  const promise = new Promise((resolve, reject)=>{
+    let transaction = db.transaction("workerObjects","readwrite");
+    let worker=transaction.objectStore("workerObjects");
+    worker.put({variable: "moduleCounter", value: moduleCounter});
+    worker.put({variable: "indexArray", value: indexArray});
+    worker.onsuccess=e=>worker.result;
+  });
+  let result;
+  try {
+    result = await promise;
+    
+  } catch(error) {
+    console.log(error);
+    return;
+  }
+  
+  transaction.oncomplete=(e)=>{
+    //Отправляем сообщение в HTML основного потока
+      debugger;
+    return true;
+  }
 }

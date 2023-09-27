@@ -2,9 +2,9 @@ import {enumPiecesNames } from "./chessModules/const-chess.mjs";
 const techResult=true;
 
 
-
 const worker1 = new Worker('assets/js/chess-knights-work.mjs', { type: "module" });
 const worker2 = new Worker('assets/js/chess-knights-work2.mjs', { type: "module" });
+
 
 worker1.addEventListener('message',e=>{
   let message=e.data;
@@ -14,6 +14,10 @@ worker1.addEventListener('message',e=>{
     setTimeout(worker.terminate,0)
   }else if(message.process=="tech-data"){
     createHTMLChessDesk(message.count, "tech-result1", message.desk, techResult);
+  }
+  else if(message.process=="db"){
+    //Пришло сообщение на сохранение в БД
+    
   }
   else if(message.process=="calculation" && message.desk){
     createHTMLChessDesk(message.count, "chess-knight-result1", message.desk);
@@ -93,4 +97,6 @@ function createHTMLChessDesk(count, divID, objChessDesk, techResult=false){
   }
   
 }
+
+
 
