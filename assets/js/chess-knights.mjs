@@ -2,10 +2,10 @@ import {enumPiecesNames } from "./chessModules/const-chess.mjs";
 const techResult=true;
 
 
-const worker1 = new Worker('assets/js/chess-knights-work.mjs', { type: "module" });
+//const worker1 = new Worker('assets/js/chess-knights-work.mjs', { type: "module" });
 const worker2 = new Worker('assets/js/chess-knights-work2.mjs', { type: "module" });
 
-
+/*
 worker1.addEventListener('message',e=>{
   let message=e.data;
   let proccessMessageDiv=document.getElementById('calc-proccess-text1')
@@ -24,7 +24,7 @@ worker1.addEventListener('message',e=>{
   else if(message.process=="calculation" && message.desk){
     createHTMLChessDesk(message.count, "chess-knight-result1", message.desk);
   }
-});
+});*/
 
 worker2.addEventListener('message',e=>{
   let message=e.data;
