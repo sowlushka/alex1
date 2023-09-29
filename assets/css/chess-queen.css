@@ -10,6 +10,10 @@
     padding: 0px;
   }
 
+  .answer{
+    background-color: rgb(218, 243, 178);
+  }
+
   .methods-results{
     display: flex;
     justify-content: space-between;
@@ -45,8 +49,8 @@
   }
 
   .result-img img{
-    width: calc(40vw - 2px);
-    height: calc(40vw - 2px);
+    width: calc(45vw - 2px);
+    height: calc(45vw - 2px);
   }
 
   .piece-num{
