@@ -16,7 +16,7 @@
 
   .methods-results{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
   }
   
@@ -51,6 +51,8 @@
   .result-img img{
     width: calc(45vw - 2px);
     height: calc(45vw - 2px);
+    max-width: 280px;
+    max-height: 280px;
   }
 
   .piece-num{
