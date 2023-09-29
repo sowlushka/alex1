@@ -70,6 +70,11 @@
     background-color: #E0E0D0;
   }
 
+  .calc-text{
+    margin-top: 20px;
+    width: 100%;
+  }
+
   #calc-proccess{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 600;
@@ -79,5 +84,6 @@
   #tech-result1, #tech-result2{
     opacity: 50%;
   }
+  
   
   
